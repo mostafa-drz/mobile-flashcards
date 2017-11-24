@@ -4,6 +4,7 @@ import Deck from './components/Deck'
 import MainView from './components/MainView'
 import { StackNavigator } from 'react-navigation'
 import NewQuestion from './components/NewQuestion'
+import NewDeck from './components/NewDeck'
 import {addDecks} from './utils/helpers'
 import thunk from 'redux-thunk'
 import reducer from './reducers'
@@ -17,7 +18,7 @@ const Stack = StackNavigator({
     MainView: {
         screen: MainView,
         navigationOptions: {
-          title: 'Main View'
+          title: 'Flashy Cards'
         }
       },
     Deck: {
@@ -28,6 +29,15 @@ const Stack = StackNavigator({
     },
     NewQuestion:{
       screen:NewQuestion,
+      navigationOptions:{
+        title:'Add New Question'
+      }
+    },
+    NewDeck:{
+      screen:NewDeck,
+      navigationOptions:{
+        title:'Add New Deck'
+      }
     }
 })
 export default class App extends React.Component {

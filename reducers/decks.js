@@ -16,7 +16,7 @@ function decks(state = { decks: [] }, action) {
             return newSate;
         case ADD_NEW_DECK:
             return {...state,
-                decks: decks.concat({
+                decks: state.decks.concat({
                     key: action.name,
                     title: action.name,
                     questions: []
