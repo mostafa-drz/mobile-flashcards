@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, TextInput,Keyboard, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native'
 import {addNewQuestionAsync} from '../actions/decks'
 import {connect} from 'react-redux'
+import {NavigationActions} from 'react-navigation'
 class NewQuestion extends Component {
     state = {
         question: '',
@@ -11,8 +12,11 @@ class NewQuestion extends Component {
     submitNewQuestion(){
         const {deck}=this.props.navigation.state.params
         this.props.addNewQuestionAsync({deckName:deck,question:{question:this.state.question,answer:this.state.answer}})
+        this.props.navigation.dispatch(NavigationActions.back())
+
     }
     render() {
+        {console.log(this.props)}
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -33,8 +37,4 @@ class NewQuestion extends Component {
     }
 }
 
-function mapStateToProps(){
-    return {}
-}
-
-export default connect(mapStateToProps,{addNewQuestionAsync})(NewQuestion)
+export default connect(null,{addNewQuestionAsync})(NewQuestion)
