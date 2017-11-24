@@ -1,13 +1,24 @@
 import { GET_ALL_DECKS, ADD_NEW_DECK, ADD_DECKS } from './types'
 import { getAllDecksFromStorage, addADeckToStorage, addDecksToStorage } from '../utils/helpers'
+import { ADD_NEW_QUESTION } from "./types";
+import { addQuestionToStorage } from "../utils/helpers";
 
+export function addNewQuestion({ deckName, question }) {
+    return {
+        type: ADD_NEW_QUESTION,
+        question,
+        deckName
+    };
+}
 
-// export function getAllDecks({ decks }) {
-//     return {
-//         type: GET_ALL_DECKS,
-//         decks
-//     }
-// }
+export function addNewQuestionAsync({ deckName, question }) {
+    return function(dispatch) {
+        return addQuestionToStorage(deckName, question).then(() => {
+            dispatch(addNewQuestion({ deckName, question }));
+        });
+    };
+}
+
 
 export function addNewDeck({ name }) {
     return {
@@ -22,16 +33,6 @@ export function addDecks({ decks }) {
         decks
     }
 }
-
-// export function fetchAllDecks() {
-//     return function(dispatch) {
-//         return getAllDecksFromStorage().then((decks) => {
-//             console.log("from actions")
-//             console.log(decks)
-//             dispatch(getAllDecks({ decks }))
-//         })
-//     }
-// }
 
 export function addDecksAsync({ decks }) {
     return function(dispatch) {

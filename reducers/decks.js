@@ -1,25 +1,38 @@
 import {
     ADD_DECKS,
     ADD_NEW_DECK,
-    GET_ALL_DECKS
+    GET_ALL_DECKS,
+    ADD_NEW_QUESTION
 } from '../actions/types'
 
 function decks(state = { decks: [] }, action) {
     switch (action.type) {
         case ADD_DECKS:
-            return {
-                ...state,
-                decks: decks.concat(action.decks)
-            }
+            const newSate = {...state,
+                decks: Object.keys(action.decks).map(
+                    key => ({ key: key, ...action.decks[key] })
+                )
+            };
+            return newSate;
         case ADD_NEW_DECK:
+            return {...state,
+                decks: decks.concat({
+                    key: action.name,
+                    title: action.name,
+                    questions: []
+                })
+            };
+        case ADD_NEW_QUESTION:
+            const changedDeck = state.decks.filter(deck => deck.key === action.deckName)[0];
+            changedDeck.questions = changedDeck.questions.concat(action.question)
             return {
                 ...state,
-                decks: decks.concat({ key: action.name, title: action.name, questions: [] })
-            }
-        case GET_ALL_DECKS:
-            return state.decks
+                decks: state.decks.filter((deck) => (deck.key != action.deckName)).concat(
+                    changedDeck
+                )
+            };
         default:
-            return state
+            return state;
     }
 }
 
