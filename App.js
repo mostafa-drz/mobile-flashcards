@@ -5,6 +5,7 @@ import MainView from './components/MainView'
 import { StackNavigator } from 'react-navigation'
 import NewQuestion from './components/NewQuestion'
 import NewDeck from './components/NewDeck'
+import Quize from './components/Quize'
 import {addDecks} from './utils/helpers'
 import thunk from 'redux-thunk'
 import reducer from './reducers'
@@ -38,6 +39,12 @@ const Stack = StackNavigator({
       navigationOptions:{
         title:'Add New Deck'
       }
+    },
+    Quize:{
+      screen:Quize,
+      navigationOptions:({navigation}) =>({
+        title:`Quize for ${navigation.state.params.title}`
+      })
     }
 })
 export default class App extends React.Component {

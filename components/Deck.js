@@ -23,6 +23,7 @@ class Deck extends Component {
               width: 300,
               marginBottom: 10
             }}
+            onPress={() => {this.props.navigation.navigate('Quize',{deck:this.props.deck,title:this.props.deck.title})}}
           >
             <Text style={{ fontSize: 20, color: "#f2f2f2" }}>Start Quize</Text>
           </TouchableOpacity>
