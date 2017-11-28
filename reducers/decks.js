@@ -23,14 +23,6 @@ function decks(state = { decks: [] }, action) {
                 })
             };
         case ADD_NEW_QUESTION:
-            // const changedDeck = state.decks.filter(deck => deck.key === action.deckName)[0];
-            // changedDeck.questions = changedDeck.questions.concat(action.question)
-            // return {
-            //     ...state,
-            //     decks: state.decks.filter((deck) => (deck.key != action.deckName)).concat(
-            //         changedDeck
-            //     )
-            // };
             return{
                 ...state,
                 decks:state.decks.reduce((accu,current) => {
