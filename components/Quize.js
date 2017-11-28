@@ -32,13 +32,14 @@ class Quize extends Component{
                   backgroundColor: "#111",
                   fontSize: 20,
                   marginTop: 20,
-                  width: 400
+                  width: 400,
+                  height:300
                 }}
               >
                 {question.answer}
               </Text>}
             {!this.state.hiddenAnswer && <Text
-                style={{ fontSize: 20, marginTop: 20, width: 400 }}
+                style={{ fontSize: 20, marginTop: 20, width: 400,height:300 }}
               >
                 {question.answer}
               </Text>}
@@ -126,7 +127,7 @@ class Quize extends Component{
             hiddenAnswer:true
         }))
     }
-    
+
     render(){
         const {deck}=this.props.navigation.state.params
         const {currentIndex,currentQuestion,complete}=this.state

@@ -23,14 +23,24 @@ function decks(state = { decks: [] }, action) {
                 })
             };
         case ADD_NEW_QUESTION:
-            const changedDeck = state.decks.filter(deck => deck.key === action.deckName)[0];
-            changedDeck.questions = changedDeck.questions.concat(action.question)
-            return {
+            // const changedDeck = state.decks.filter(deck => deck.key === action.deckName)[0];
+            // changedDeck.questions = changedDeck.questions.concat(action.question)
+            // return {
+            //     ...state,
+            //     decks: state.decks.filter((deck) => (deck.key != action.deckName)).concat(
+            //         changedDeck
+            //     )
+            // };
+            return{
                 ...state,
-                decks: state.decks.filter((deck) => (deck.key != action.deckName)).concat(
-                    changedDeck
-                )
-            };
+                decks:state.decks.reduce((accu,current) => {
+                    return current.key!==action.deckName ? accu.concat(current) : 
+                            accu.concat({
+                                ...current,
+                                questions:current.questions.concat(action.question)
+                            })
+                },[])
+            }
         default:
             return state;
     }
