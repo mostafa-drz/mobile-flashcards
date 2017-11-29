@@ -1,143 +1,19 @@
 import React, {Component} from 'react'
-import {View,Text, TouchableOpacity, ScrollView} from 'react-native'
+import {View,Text, TouchableOpacity, ScrollView,Animated} from 'react-native'
 import {NavigationActions} from 'react-navigation'
+import QuestionCard from './QuestionCard'
 class Quize extends Component {
   state = {
     currentIndex: 0,
     correct: 0,
     wrong: 0,
-    hiddenAnswer: true,
     currentQuestion: {},
     complete: false,
-    btnCaption: ["Hide The Answer", "Show The Answer"]
   };
   componentDidMount() {
     this.setState(() => ({
       currentQuestion: this.props.navigation.state.params.deck.questions[0]
     }));
-  }
-
-  renderQuestionCard(question) {
-    if (question && question.question && question.answer) {
-      return (
-        <View
-          style={{ flex: 1 }}
-          key={`question${Math.random()
-            .toString(32)
-            .slice(0, 4)}`}
-          style={{
-            width: 300,
-            justifyContent: "center",
-            alignItems: "center",
-            flex: 1
-          }}
-        >
-          <ScrollView
-            style={{ flex: 1, width: 400, marginTop: 280 }}
-            showsHorizontalScrollIndicator={false}
-            horizontal={false}
-          >
-            <Text style={{ fontSize: 20, marginBottom: 10, width: 400 }}>
-              {question.question}
-            </Text>
-            {this.state.hiddenAnswer && (
-              <Text
-                style={{
-                  backgroundColor: "#111",
-                  fontSize: 20,
-                  marginTop: 20,
-                  width: 400,
-                  height: 100
-                }}
-              >
-                {question.answer}
-              </Text>
-            )}
-            {!this.state.hiddenAnswer && (
-              <Text style={{ fontSize: 20, marginTop: 20, width: 400 }}>
-                {question.answer}
-              </Text>
-            )}
-          </ScrollView>
-          <TouchableOpacity
-            onPress={() => {
-              this.setState(preState => ({
-                hiddenAnswer: !preState.hiddenAnswer
-              }));
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 20,
-                textAlign: "center",
-                backgroundColor: "#274374",
-                color: "#f4f7f7",
-                width: 200,
-                height: 50,
-                paddingVertical: 10
-              }}
-            >
-              {this.state.btnCaption[+this.state.hiddenAnswer]}
-            </Text>
-          </TouchableOpacity>
-
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginRight: 100,
-              marginBottom: 150,
-              marginTop: 100
-            }}
-          >
-            <TouchableOpacity
-              style={{ backgroundColor: "#118a29", marginLeft: 80 }}
-              onPress={() => {
-                this.goToNextQuestion({ res: "correct" });
-              }}
-            >
-              <Text
-                style={{
-                  color: "#f4f7f7",
-                  fontSize: 20,
-                  textAlign: "center",
-                  width: 200,
-                  height: 50,
-                  paddingVertical: 10
-                }}
-              >
-                Correct ❤️
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{ backgroundColor: "#f0082d", marginLeft: 150 }}
-              onPress={() => {
-                this.goToNextQuestion({ res: "wrong" });
-              }}
-            >
-              <Text
-                style={{
-                  color: "#f4f7f7",
-                  fontSize: 20,
-                  textAlign: "center",
-                  width: 200,
-                  height: 50,
-                  paddingVertical: 10
-                }}
-              >
-                Incorrect 💔
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      );
-    } else {
-      return (
-        <View>
-          <Text>Nothing</Text>
-        </View>
-      );
-    }
   }
 
   renderResult() {
@@ -184,6 +60,7 @@ class Quize extends Component {
       </View>
     );
   }
+
   goToNextQuestion({ res }) {
     const complete =
       this.props.navigation.state.params.deck.questions.length ===
@@ -196,7 +73,6 @@ class Quize extends Component {
       currentQuestion: this.props.navigation.state.params.deck.questions[
         preState.currentIndex + 1
       ],
-      hiddenAnswer: true,
       complete,
       [res]: preState[res] + 1
     }));
@@ -209,7 +85,6 @@ class Quize extends Component {
       currentIndex: 0,
       currentQuestion: this.props.navigation.state.params.deck.questions[0],
       complete: false,
-      hiddenAnswer: true
     }));
   }
 
@@ -226,8 +101,11 @@ class Quize extends Component {
           </View>
           <View
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
-            {this.renderQuestionCard(currentQuestion)}
+            >
+            <QuestionCard
+            question={currentQuestion}
+            onNextQuestion={({res}) => this.goToNextQuestion({res})}
+            />
           </View>
         </View>
       );

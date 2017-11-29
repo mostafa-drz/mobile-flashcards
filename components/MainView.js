@@ -45,7 +45,6 @@ class MainView extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: containerBackColor,
     padding: 20
   },
   decksList: {
