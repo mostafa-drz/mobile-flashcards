@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {View,Text, TouchableOpacity, ScrollView,Animated} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 import QuestionCard from './QuestionCard'
+import {setLocalNotification,clearLocalNotification} from '../utils/helpers'
 class Quize extends Component {
   state = {
     currentIndex: 0,
@@ -110,6 +111,12 @@ class Quize extends Component {
         </View>
       );
     } else {
+      {
+        clearLocalNotification()
+          .then(() => {
+            setLocalNotification();
+        })
+      }
       return <View style={{ flex: 1 }}>{this.renderResult()}</View>;
     }
   }

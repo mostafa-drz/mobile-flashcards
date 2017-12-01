@@ -1,6 +1,7 @@
 import { AsyncStorage } from "react-native"
-
+import { Permissions, Notifications } from 'expo'
 const STORAGE_KEYWORD = 'UdaciFlash'
+const NOTIFICATION_KEY = 'UdaciFlash:Notification'
 
 export function getAllDecksFromStorage() {
     return new Promise((resolve, reject) => {
@@ -65,4 +66,53 @@ export function addDecksToStorage(decks) {
                 }
             );
     })
+}
+
+export function setLocalNotification() {
+    return AsyncStorage.getItem(NOTIFICATION_KEY)
+        .then((data) => {
+            if (data === null) {
+                Permissions.askAsync(Permissions.NOTIFICATIONS)
+                    .then(({ status }) => {
+                        if (status === 'granted') {
+                            Notifications.cancelAllScheduledNotificationsAsync()
+                            let tomorrow = new Date();
+                            tomorrow.setDate(tomorrow.getDate() + 1)
+                            tomorrow.setHours(20)
+                            tomorrow.setMinutes(0)
+
+                            Notifications.scheduleLocalNotificationAsync(
+                                createNotification(), {
+                                    time: tomorrow,
+                                    repeat: 'minute'
+                                }
+                            )
+
+                            AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
+                        }
+                    })
+            }
+        })
+}
+
+function createNotification() {
+    return {
+        title: 'Quiz!',
+        body: `📖 Don't forget to the quiz!`,
+        ios: {
+            sound: true
+        },
+        android: {
+            sound: true,
+            priority: 'high',
+            sticky: false,
+            vibrate: 'true'
+        }
+    }
+}
+
+export function clearLocalNotification() {
+    return AsyncStorage.removeItem(NOTIFICATION_KEY).then(() => {
+        Notifications.cancelAllScheduledNotificationsAsync();
+    });
 }

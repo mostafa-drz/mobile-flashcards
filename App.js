@@ -6,7 +6,7 @@ import { StackNavigator } from 'react-navigation'
 import NewQuestion from './components/NewQuestion'
 import NewDeck from './components/NewDeck'
 import Quize from './components/Quize'
-import {addDecks} from './utils/helpers'
+import {addDecks,setLocalNotification,clearLocalNotification} from './utils/helpers'
 import thunk from 'redux-thunk'
 import reducer from './reducers'
 import {applyMiddleware,createStore,compose} from 'redux'
@@ -51,6 +51,10 @@ export default class App extends React.Component {
   
   componentWillMount() {
     store.dispatch(addDecksAsync({decks:tempDeck}))
+  }
+
+  componentDidMount() {
+     setLocalNotification()
   }
   render() {
     return (
