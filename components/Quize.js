@@ -95,7 +95,7 @@ class Quize extends Component {
     if (!complete) {
       return (
         <View style={{ flex: 1 }}>
-          <View style={{ position: "absolute", top: 100, left: 100 }}>
+          <View style={{alignSelf:'center',marginTop:10}}>
             <Text style={{ fontSize: 30 }}>
               {currentIndex + 1} / {deck.questions.length}
             </Text>
