@@ -8,9 +8,12 @@ class NewDeck extends Component{
         deckName:'',
     }
 
-    addDeck(){
-        this.props.addNewDeckAsync({name:this.state.deckName})
-        this.props.navigation.dispatch(NavigationActions.back())
+    async addDeck(){
+        await this.props.addNewDeckAsync({name:this.state.deckName})
+        this.props.navigation.navigate("Deck",{
+          key:this.state.deckName,
+          title:this.state.deckName
+        })
     }
     render(){
         return( <View style={styles.container}>

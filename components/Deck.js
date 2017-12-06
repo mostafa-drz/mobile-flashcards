@@ -15,6 +15,7 @@ class Deck extends Component {
             <MaterialCommunityIcons name="cards-outline" size={100} />
           </Text>
           <TouchableOpacity
+            disabled={!this.props.deck.questions || !this.props.deck.questions.length>0}
             style={{
               backgroundColor: "#5a667a",
               justifyContent: "center",
