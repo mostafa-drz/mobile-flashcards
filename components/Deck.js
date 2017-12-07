@@ -1,52 +1,37 @@
 import React,{Component} from 'react'
 import {View,Text,TouchableOpacity} from 'react-native'
 import { MaterialCommunityIcons} from '@expo/vector-icons'
+import styles from '../styles/deckStyle'
 import {connect} from 'react-redux'
 
 class Deck extends Component {
   render() {
     return (
-      <View style={{ flex: 1 }}>
         <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          style={styles.container}
         >
-          <Text style={{ fontSize: 100 }}>
+          <Text style={styles.txtHeader}>
             {this.props.deck.questions.length}{" "}
             <MaterialCommunityIcons name="cards-outline" size={100} />
           </Text>
           <TouchableOpacity
             disabled={!this.props.deck.questions || !this.props.deck.questions.length>0}
-            style={{
-              backgroundColor: "#5a667a",
-              justifyContent: "center",
-              alignItems: "center",
-              height: 100,
-              width: 300,
-              marginBottom: 10
-            }}
+            style={styles.btn}
             onPress={() => {this.props.navigation.navigate('Quize',{deck:this.props.deck,title:this.props.deck.title})}}
           >
-            <Text style={{ fontSize: 20, color: "#f2f2f2" }}>Start Quize</Text>
+            <Text style={styles.btnText}>Start Quize</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={{
-              backgroundColor: "#5a667a",
-              justifyContent: "center",
-              alignItems: "center",
-              height: 100,
-              width: 300,
-              marginBottom: 10
-            }}
+            style={styles.btn}
             onPress={() => {
               this.props.navigation.navigate("NewQuestion", {
                 deck: this.props.navigation.state.params.key
               });
             }}
           >
-            <Text style={{ fontSize: 20, color: "#f2f2f2" }}>Add New card</Text>
+            <Text style={styles.btnText}>Add New card</Text>
           </TouchableOpacity>
         </View>
-      </View>
     );
   }
 }

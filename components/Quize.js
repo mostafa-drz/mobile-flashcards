@@ -3,6 +3,7 @@ import {View,Text, TouchableOpacity, ScrollView,Animated} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 import QuestionCard from './QuestionCard'
 import {setLocalNotification,clearLocalNotification} from '../utils/helpers'
+import styles from '../styles/quizeStyle'
 class Quize extends Component {
   state = {
     currentIndex: 0,
@@ -94,14 +95,14 @@ class Quize extends Component {
     const { currentIndex, currentQuestion, complete } = this.state;
     if (!complete) {
       return (
-        <View style={{ flex: 1 }}>
-          <View style={{alignSelf:'center',marginTop:10}}>
-            <Text style={{ fontSize: 30 }}>
+        <View style={styles.container}>
+          <View style={styles.counter}>
+            <Text style={styles.counterText}>
               {currentIndex + 1} / {deck.questions.length}
             </Text>
           </View>
           <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+            style={styles.cardContainer}
             >
             <QuestionCard
             question={currentQuestion}
