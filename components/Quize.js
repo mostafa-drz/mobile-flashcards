@@ -3,8 +3,14 @@ import {View,Text, TouchableOpacity, ScrollView,Animated} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 import QuestionCard from './QuestionCard'
 import {setLocalNotification,clearLocalNotification} from '../utils/helpers'
+import QuizeResult from './QuizeResult'
 import styles from '../styles/quizeStyle'
 class Quize extends Component {
+  constructor(props){
+    super(props);
+    this.restartTheQuize=this.restartTheQuize.bind(this);
+    this.backToDeck=this.backToDeck.bind(this);
+  }
   state = {
     currentIndex: 0,
     correct: 0,
@@ -16,51 +22,6 @@ class Quize extends Component {
     this.setState(() => ({
       currentQuestion: this.props.navigation.state.params.deck.questions[0]
     }));
-  }
-
-  renderResult() {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={{ fontSize: 50, marginRight: 50 }}>{`❤️ ${
-            this.state.correct
-          }`}</Text>
-          <Text style={{ fontSize: 50, marginLeft: 50 }}>{`💔 ${
-            this.state.wrong
-          }`}</Text>
-        </View>
-        <View>
-          <TouchableOpacity
-            onPress={() => this.restartTheQuize()}
-            style={{
-              marginTop: 40,
-              marginBottom: 40,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#9cdba4",
-              width: 300,
-              height: 80
-            }}
-          >
-            <Text style={{ fontSize: 20 }}>Try Again</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.dispatch(NavigationActions.back())
-            }
-            style={{
-              width: 300,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#00ccff",
-              height: 80
-            }}
-          >
-            <Text style={{ fontSize: 20 }}>Back To The Deck</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
   }
 
   goToNextQuestion({ res }) {
@@ -88,6 +49,10 @@ class Quize extends Component {
       currentQuestion: this.props.navigation.state.params.deck.questions[0],
       complete: false,
     }));
+  }
+
+  backToDeck(){
+    this.props.navigation.dispatch(NavigationActions.back())
   }
 
   render() {
@@ -118,7 +83,15 @@ class Quize extends Component {
             setLocalNotification();
         })
       }
-      return <View style={{ flex: 1 }}>{this.renderResult()}</View>;
+      return <View style={{ flex: 1 }}>
+      <QuizeResult
+      correct={this.state.correct}
+      wrong={this.state.wrong}
+      onRestartTheQuize={this.restartTheQuize}
+      onBackToDeck={this.backToDeck}
+      />
+      
+      </View>;
     }
   }
 }

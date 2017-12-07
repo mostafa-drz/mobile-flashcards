@@ -25,7 +25,13 @@ class QuestionCard extends Component {
         outputRange:['180deg','360deg']
     })
   }
+ componentWillReceiveProps(props){
+   this.animatedValue.setValue(0)
+ }
 
+  componentWillUnmount(){
+    this.animatedValue.removeAllListeners()
+  }
   flipCard(){
       if(this.value>=90){
           Animated.spring(this.animatedValue,{
